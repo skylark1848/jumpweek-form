@@ -4,6 +4,7 @@ from django.core.mail import send_mail
 from . import models
 from forms import NameForm
 from django.utils import timezone
+from models import Person
 
 def get_name(request):
     # if this is a POST request we need to process the form data
@@ -27,6 +28,10 @@ def get_name(request):
 
 def thanks(request):
     return render(request, 'forms/thanks.html')
+
+def print_users(request):
+        p = Person.objects.all().order_by('pub_date')
+        return render(request, 'forms/users.html', {'users':p})
 
 """
 if form.is_valid():

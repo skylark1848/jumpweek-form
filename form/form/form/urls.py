@@ -22,4 +22,5 @@ urlpatterns = [
     url(r'^forms/', views.get_name),
     url(r'^thanks/', views.thanks),
     url(r'^your-name/', views.get_name),
+    url(r'^users/', views.print_users, name='p'),
 ]
