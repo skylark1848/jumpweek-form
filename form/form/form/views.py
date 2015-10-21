@@ -1,10 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
-from django import forms
-
-
-from .forms import NameForm
+from . import models
+from forms import NameForm
+from django.utils import timezone
 
 def get_name(request):
     # if this is a POST request we need to process the form data
@@ -13,8 +12,10 @@ def get_name(request):
         form = NameForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # ...
+            p = models.Person()
+            p.your_name = request.POST['your_name']
+            p.pub_date = timezone.now()
+            p.save()
             # redirect to a new URL:
             return HttpResponseRedirect('/thanks/')
 
@@ -41,9 +42,10 @@ if form.is_valid():
     send_mail(subject, message, sender, recipients)
     return HttpResponseRedirect('/thanks/')
 """
-
+"""
 class ContactForm(forms.Form):
     subject = forms.CharField(max_length=100)
     message = forms.CharField(widget=forms.Textarea)
     sender = forms.EmailField()
     cc_myself = forms.BooleanField(required=False)
+"""
