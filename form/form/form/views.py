@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
+from django import forms
 
 
 from .forms import NameForm
@@ -21,8 +22,12 @@ def get_name(request):
     else:
         form = NameForm()
 
-    return render(request, 'name.html', {'form': form})
+        return render(request, 'forms/name.html', {'form': form})
 
+def thanks(request):
+    return render(request, 'forms/thanks.html')
+
+"""
 if form.is_valid():
     subject = form.cleaned_data['subject']
     message = form.cleaned_data['message']
@@ -35,3 +40,10 @@ if form.is_valid():
 
     send_mail(subject, message, sender, recipients)
     return HttpResponseRedirect('/thanks/')
+"""
+
+class ContactForm(forms.Form):
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)
+    sender = forms.EmailField()
+    cc_myself = forms.BooleanField(required=False)
